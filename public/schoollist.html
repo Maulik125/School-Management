@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>School Management</title>
+</head>
+<body>
+  <h2>Schools Nearby</h2>
+  <input id="userLat" placeholder="Your Latitude" />
+  <input id="userLng" placeholder="Your Longitude" />
+  <button onclick="fetchSchools()">Get Schools</button>
+  <ul id="schoolList"></ul>
+
+<script>
+    async function fetchSchools() {
+      const lat = document.getElementById("userLat").value;
+      const lng = document.getElementById("userLng").value;
+      const res = await fetch(`/listSchools?latitude=${lat}&longitude=${lng}`);
+      const schools = await res.json();
+      const list = document.getElementById("schoolList");
+      list.innerHTML = "";
+      schools.forEach(s => {
+        const li = document.createElement("li");
+        li.textContent = `${s.name} - ${s.distance.toFixed(2)} km`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
